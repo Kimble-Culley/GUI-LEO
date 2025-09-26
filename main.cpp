@@ -4,18 +4,18 @@
 
 int main(){
 
-const int screenWidth = 3840;
-const int screenHeight = 2160;
+const int screenWidth = 1440;
+const int screenHeight = 1080;
 InitWindow(screenWidth,screenHeight,"Test Window For GUI");
 
 SetTargetFPS(60);
 
-Rectangle button1 = {20,20,screenWidth/6,150};
-Rectangle button2 = {20,190,screenWidth/6,150};
+Buttons button1({200,200,400,150},GRAY,"Hello",20);
 
 while(!WindowShouldClose()){
     Vector2 mousePos = GetMousePosition();
-
+    button1.Collison(mousePos);
+    /*
     //First Button is start scan from raspberryPI
     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         if(CheckCollisionPointRec(mousePos, button1)){
@@ -24,15 +24,17 @@ while(!WindowShouldClose()){
         }
     }
 
+    */
 
 
     BeginDrawing();
     ClearBackground(WHITE);
 
-    DrawRectangleRec(button1,PURPLE);
-    DrawRectangleRec(button2,GRAY);
+    button1.DrawButton();
+
     EndDrawing();
-    }
+    
+}
 
 CloseWindow();
 return 0;
