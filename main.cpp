@@ -15,17 +15,18 @@ Rectangle button1 = {300,300,500,200};
 while(!WindowShouldClose()){
     Vector2 mousePos = GetMousePosition();
 
-    if(IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
+    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         if(CheckCollisionPointRec(mousePos, button1)){
-            std::cout << "I clicked the button";
+            std::cout << "I clicked the button" << std::endl;
         }
     }
+
+
 
     BeginDrawing();
     ClearBackground(WHITE);
 
     DrawRectangleRec(button1,PURPLE);
-    
 
     EndDrawing();
     }
