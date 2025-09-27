@@ -19,3 +19,7 @@ bool Buttons::Collison(Vector2 Mouse){
     }
     return 0;
 }
+
+void Buttons::UpdatePositon(Rectangle newRect){
+    buttonParam = newRect;
+}

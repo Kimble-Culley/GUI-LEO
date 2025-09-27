@@ -5,9 +5,11 @@ class Status{
 
 private:
 
+
 public:
 void GetPiStatus();
 
+void DrawStatus(int status);
 
 };
 

@@ -21,6 +21,8 @@ void DrawButton();
 
 bool Collison(Vector2 Mouse);
 
+void UpdatePositon(Rectangle newRect);
+
 };
 
 #endif //BUTTONS_H
