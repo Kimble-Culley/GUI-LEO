@@ -19,7 +19,7 @@ Buttons(Rectangle rec,Color col,std::string txt,int FntSz){
 
 void DrawButton();
 
-void Collison(Vector2 Mouse);
+bool Collison(Vector2 Mouse);
 
 };
 
