@@ -11,6 +11,8 @@ void GetPiStatus();
 
 void DrawStatus(int status);
 
+void DrawInfo();
+
 };
 
 

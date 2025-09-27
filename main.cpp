@@ -59,6 +59,7 @@ while(!WindowShouldClose()){
     button2.DrawButton();
     ConnectToPi.DrawButton();
     PiStatus.DrawStatus(0);
+    PiStatus.DrawInfo();
 
 
     DrawFPS(20,20);
