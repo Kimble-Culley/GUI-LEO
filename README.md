@@ -7,7 +7,7 @@ Raylib is used to create the graphical interfaces.
 
 # TODO
 ```
-- [] Create a file management system.
-- [] Make system calls dynamic.
+- [ ] Create a file management system.
+- [ ] Make system calls dynamic.
 ```
 
