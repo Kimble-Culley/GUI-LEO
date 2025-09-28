@@ -6,8 +6,6 @@ I am keeping its development separate so it can be used as a template for other 
 Raylib is used to create the graphical interfaces.
 
 # TODO
-```
 - [ ] Create a file management system.
 - [ ] Make system calls dynamic.
-```
 
