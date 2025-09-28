@@ -17,12 +17,17 @@ bLayout layout;
 const int screenWidth = 1440;
 const int screenHeight = 1080;
 
+
+//Test variables for removal
+int tester = 0;
+
 InitWindow(screenWidth,screenHeight,"Test Window For GUI");
 
 SetTargetFPS(60);
 
 Buttons button1({layout.border,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio},LIGHTGRAY,"Hello",20);
 Buttons button2({layout.border,190,400,150},LIGHTGRAY,"Click Me",20);
+Buttons button3({layout.border+button1.getRect().width,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio},LIGHTGRAY,"Hello",20);
 Buttons ConnectToPi({screenWidth-300,screenHeight-300,200,50},LIGHTGRAY,"Connect to PI",20);
 Status PiStatus;
 
@@ -34,6 +39,7 @@ while(!WindowShouldClose()){
 
     button1.UpdatePositon({layout.border,layout.border,NewScreenWidth*layout.buttonWidthRatio,NewScreenHeight*layout.buttonHeightRatio});
     button2.UpdatePositon({layout.border,(layout.border)*2 + NewScreenHeight*layout.buttonHeightRatio,NewScreenWidth*layout.buttonWidthRatio,NewScreenHeight*layout.buttonHeightRatio});
+    button3.UpdatePositon({layout.border+button1.getRect().width,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio});
     ConnectToPi.UpdatePositon({NewScreenWidth-250,NewScreenHeight-120,layout.connectButtonWidth,layout.connectButtonHeight});
 
     Vector2 mousePos = GetMousePosition();
@@ -44,6 +50,10 @@ while(!WindowShouldClose()){
     
     if(button2.Collison(mousePos)){
         system("~/3Drenderer/Open3D/build/test_open3d");
+    }
+
+    if(ConnectToPi.Collison(mousePos)){
+        tester = 1;
     }
 
 
@@ -57,8 +67,9 @@ while(!WindowShouldClose()){
 
     button1.DrawButton();
     button2.DrawButton();
+    button3.DrawButton();
     ConnectToPi.DrawButton();
-    PiStatus.DrawStatus(0);
+    PiStatus.DrawStatus(tester);
     PiStatus.DrawInfo();
 
 

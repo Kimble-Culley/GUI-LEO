@@ -23,6 +23,8 @@ bool Collison(Vector2 Mouse);
 
 void UpdatePositon(Rectangle newRect);
 
+Rectangle getRect() const;
+
 };
 
 #endif //BUTTONS_H

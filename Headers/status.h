@@ -7,7 +7,7 @@ private:
 
 
 public:
-void GetPiStatus();
+int GetPiStatus();
 
 void DrawStatus(int status);
 
