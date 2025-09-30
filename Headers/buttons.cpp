@@ -5,6 +5,7 @@
 
 void Buttons::DrawButton(){
     DrawRectangleRec(buttonParam,buttonColor);
+    FontSize = (buttonParam.height)/2;
     int textWidth = MeasureText(Text.c_str(),FontSize);
     int textX = buttonParam.x + (buttonParam.width - textWidth)/2;
     int textY = buttonParam.y + (buttonParam.height - FontSize)/2;

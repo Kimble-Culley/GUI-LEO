@@ -7,6 +7,8 @@ struct bLayout{
     float border = 20;
     float buttonWidthRatio = 0.25f;
     float buttonHeightRatio = 0.1f;
+    float smButtonWidthRation = 0.125f;
+    float smButtonHeightRation = 0.04f;
     float connectButtonWidth = 200;
     float connectButtonHeight = 50;
 };
@@ -39,7 +41,7 @@ while(!WindowShouldClose()){
 
     button1.UpdatePositon({layout.border,layout.border,NewScreenWidth*layout.buttonWidthRatio,NewScreenHeight*layout.buttonHeightRatio});
     button2.UpdatePositon({layout.border,(layout.border)*2 + NewScreenHeight*layout.buttonHeightRatio,NewScreenWidth*layout.buttonWidthRatio,NewScreenHeight*layout.buttonHeightRatio});
-    button3.UpdatePositon({layout.border+button1.getRect().width,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio});
+    button3.UpdatePositon({layout.border*2+button1.getRect().width,layout.border,NewScreenWidth*layout.smButtonWidthRation,NewScreenHeight*layout.smButtonHeightRation});
     ConnectToPi.UpdatePositon({NewScreenWidth-250,NewScreenHeight-120,layout.connectButtonWidth,layout.connectButtonHeight});
 
     Vector2 mousePos = GetMousePosition();
@@ -63,7 +65,7 @@ while(!WindowShouldClose()){
     ClearBackground(WHITE);
     
 
-    DrawText("LEO",(NewScreenWidth/2)-100,layout.border,100,BLACK);
+    DrawText("LEO",(NewScreenWidth)-350,layout.border,100,BLACK);
 
     button1.DrawButton();
     button2.DrawButton();
