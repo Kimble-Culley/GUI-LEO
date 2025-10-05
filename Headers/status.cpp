@@ -1,11 +1,14 @@
 #include <vector>
+#include <filesystem>
 #include <iostream>
 #include <string>
+#include <cmath>
 #include "files.h"
 #include "raylib.h"
 #include "status.h"
 #include "textInput.h"
 
+namespace fs = std::filesystem;
 
 
 //Draws the status of the connect to the raspberry pi in the form of a colored circle
@@ -89,6 +92,7 @@ void Status::DrawInfo(Files &fromFile, TextInput &inputFileBox){
     default:
         statusText.clear();
         statusText.push_back("Current File: " + fromFile.getFileName());
+        statusText.push_back("File Size: " + std::to_string(fs::file_size(fromFile.getFileName())/1024) + " KB");
         statusText.push_back("Number of points: "+ std::to_string(points));
         break;
     }   
