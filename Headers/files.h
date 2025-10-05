@@ -16,6 +16,7 @@ public:
 
     void findFiles();
     void readCSV();
+    void updateFileName(std::string newFileName);
 
     int getCounter() const { return counter; }
     std::string getFileName() const { return fileName; }

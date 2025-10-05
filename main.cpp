@@ -55,10 +55,12 @@ while(!WindowShouldClose()){
     Vector2 mousePos = GetMousePosition();
 
     if(ButtonStartScan.Collison(mousePos)){
+        PiStatus.changeState(1);
         system("ls");
     }
     
     if(ButtonOpenScan.Collison(mousePos)){
+        PiStatus.changeState(2);
         csvFile.findFiles();
     }
 
@@ -66,7 +68,11 @@ while(!WindowShouldClose()){
         PiStatus.GetPiStatus();
     }
 
-    inputFileBox.UpdateText(mousePos);
+    inputFileBox.UpdateText(mousePos,csvFile);
+
+    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !(ButtonStartScan.Collison(mousePos)||ButtonOpenScan.Collison(mousePos)||ConnectToPi.Collison(mousePos)||ButtonScanMode.Collison(mousePos)) && !inputFileBox.getActive()){
+        PiStatus.changeState(0);
+    }
 
 
     BeginDrawing();
@@ -80,7 +86,7 @@ while(!WindowShouldClose()){
     ButtonScanMode.DrawButton();
     ConnectToPi.DrawButton();
     PiStatus.DrawStatus();
-    PiStatus.DrawInfo(csvFile);
+    PiStatus.DrawInfo(csvFile,inputFileBox);
 
     inputFileBox.DrawBox();
 

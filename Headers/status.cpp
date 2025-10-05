@@ -4,6 +4,7 @@
 #include "files.h"
 #include "raylib.h"
 #include "status.h"
+#include "textInput.h"
 
 
 
@@ -46,7 +47,7 @@ int Status::GetPiStatus(){
 
 
 //Draws a box displaying current status along with other parameters
-void Status::DrawInfo(Files &fromFile){
+void Status::DrawInfo(Files &fromFile, TextInput &inputFileBox){
     int Height = GetScreenHeight();
     int Width = GetScreenWidth();
     float screenH = 0.5f*Height;
@@ -66,21 +67,48 @@ void Status::DrawInfo(Files &fromFile){
 
     //Black Background
     DrawRectangle(x,y,(screenW),(screenW),BLACK);
+
+    inputFileBox.UpdateBoxPosition(x,y,screenW,screenH,0.1f,0.8f,0.8f,0.1f);
     
 
     //Text Section
-    std::vector<std::string> text ={
-        "Current File: " + fromFile.getFileName(),
-        "Number of points: "+ std::to_string(points)
-    };
+    std::vector<std::string> statusText;
+    
+    switch (currentState)
+    {
+    case 1:
+        statusText.clear();
+        statusText.push_back("status1");
+        break;
+
+    case 2:
+        statusText.clear();
+        statusText.push_back("This state should probably just go to default?");
+        break;
+    
+    default:
+        statusText.clear();
+        statusText.push_back("Current File: " + fromFile.getFileName());
+        statusText.push_back("Number of points: "+ std::to_string(points));
+        break;
+    }   
+    
+    
 
 
-    int FontSize = 30;
+    int FontSize = static_cast<int>(screenW/25);
     Color col = LIME;
     x += 5;
     y += 5;
 
-    for(int i = 0; i < text.size(); i++){
-        DrawText(text[i].c_str(),x,y+(FontSize*i),FontSize,col);
+    for(int i = 0; i < static_cast<int>(statusText.size()); i++){
+        DrawText(statusText[i].c_str(),x,y+(FontSize*i),FontSize,col);
     }
+}
+
+
+
+
+void Status::changeState(int state){
+    currentState = state;
 }

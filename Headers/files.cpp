@@ -32,6 +32,7 @@ void Files::findFiles(){
 
 
 void Files::readCSV(){
+    counter = -1;
     std::ifstream file(fileName);
     
 
@@ -45,4 +46,9 @@ void Files::readCSV(){
     while(getline(file,s)){
         counter++;
     }
+}
+
+void Files::updateFileName(std::string newFileName){
+    fileName = newFileName;
+
 }
