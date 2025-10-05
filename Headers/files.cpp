@@ -1,9 +1,33 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem> 
+#include <vector>
 #include "files.h"
+    
+
+namespace fs = std::filesystem;
 
 
+//Upon clicking the OpenScan button this function will go through the assigned directory
+//our default directory will be ./files/csv
+//after it manuvers to that directory, a list of .csv files will be printed, and the user will
+//be asked to select a file to open.
+//For now I think a text entry box would be the simplest, will will just concatinate it with the default directory.
+void Files::findFiles(){
+    fileList.clear();
+    const::fs::path defaultPath{"./files/csv"};
+    std::string fileExt = ".csv";
+
+    for(auto const& directoryEntry : fs::directory_iterator{defaultPath}){
+        fileList.push_back(directoryEntry.path());
+    }
+
+    for(int i = 0; i < static_cast<int>(fileList.size()); i++){
+        std::cout << fileList[i] << std::endl;
+    }
+
+
+}
 
 
 
