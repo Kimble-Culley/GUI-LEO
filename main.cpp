@@ -24,6 +24,9 @@ Files csvFile;
 
 
 csvFile.readCSV();
+csvFile.loadPiConfig();
+
+
 const int screenWidth = 1440;
 const int screenHeight = 1080;
 
@@ -38,8 +41,11 @@ TextInput inputFileBox({screenWidth/2,screenHeight/2,400,50},24);
 Buttons ButtonStartScan({layout.border,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio},LIGHTGRAY,"Start Scan",20);
 Buttons ButtonOpenScan({layout.border,190,400,150},LIGHTGRAY,"OpenScan",20);
 Buttons ButtonScanMode({layout.border+ButtonStartScan.getRect().width,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio},LIGHTGRAY,"Scan Mode",20);
+Buttons ButtonLocateFiles({layout.border+ButtonOpenScan.getRect().width,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio},LIGHTGRAY,"Locate Files",20);
+
 Buttons ConnectToPi({screenWidth-300,screenHeight-300,200,50},LIGHTGRAY,"Connect to PI",20);
 Status PiStatus;
+
 
 
 
@@ -50,27 +56,43 @@ while(!WindowShouldClose()){
     ButtonStartScan.UpdatePositon({layout.border,layout.border,NewScreenWidth*layout.buttonWidthRatio,NewScreenHeight*layout.buttonHeightRatio});
     ButtonOpenScan.UpdatePositon({layout.border,(layout.border)*2 + NewScreenHeight*layout.buttonHeightRatio,NewScreenWidth*layout.buttonWidthRatio,NewScreenHeight*layout.buttonHeightRatio});
     ButtonScanMode.UpdatePositon({layout.border*2+ButtonStartScan.getRect().width,layout.border,NewScreenWidth*layout.smButtonWidthRation,NewScreenHeight*layout.smButtonHeightRation});
+    ButtonLocateFiles.UpdatePositon({layout.border*2+ButtonOpenScan.getRect().width,layout.border*2 + NewScreenHeight*layout.buttonHeightRatio,NewScreenWidth*layout.smButtonWidthRation,NewScreenHeight*layout.smButtonHeightRation});
     ConnectToPi.UpdatePositon({NewScreenWidth-250,NewScreenHeight-120,layout.connectButtonWidth,layout.connectButtonHeight});
 
     Vector2 mousePos = GetMousePosition();
 
+
     if(ButtonStartScan.Collison(mousePos)){
+        std::string cmd = "ssh " + csvFile.getsshUser() + "@" + csvFile.getsshHost() + " 'cd ~/Lidar-Exploration-Operator/2dMapping/LidarHardware/src && ./lidar'";
+        system(cmd.c_str());
         PiStatus.changeState(1);
-        system("ls");
     }
     
     if(ButtonOpenScan.Collison(mousePos)){
-        PiStatus.changeState(2);
+        PiStatus.changeState(0);
+        std::string cmd = "~/3Drenderer/Open3D/tester/build/view_csv " + csvFile.getFileName();
+        system(cmd.c_str());
+    }
+
+    if(ButtonLocateFiles.Collison(mousePos)){
         csvFile.findFiles();
+        PiStatus.changeState(3);
     }
 
     if(ConnectToPi.Collison(mousePos)){
-        PiStatus.GetPiStatus();
+        PiStatus.GetPiStatus(csvFile);
     }
 
     inputFileBox.UpdateText(mousePos,csvFile);
 
-    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !(ButtonStartScan.Collison(mousePos)||ButtonOpenScan.Collison(mousePos)||ConnectToPi.Collison(mousePos)||ButtonScanMode.Collison(mousePos)) && !inputFileBox.getActive()){
+    bool clickedButton = 
+    ButtonStartScan.Collison(mousePos)||
+    ButtonOpenScan.Collison(mousePos)||
+    ConnectToPi.Collison(mousePos)||
+    ButtonScanMode.Collison(mousePos) ||
+    ButtonLocateFiles.Collison(mousePos);
+
+    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !clickedButton && !inputFileBox.getActive()){
         PiStatus.changeState(0);
     }
 
@@ -84,6 +106,7 @@ while(!WindowShouldClose()){
     ButtonStartScan.DrawButton();
     ButtonOpenScan.DrawButton();
     ButtonScanMode.DrawButton();
+    ButtonLocateFiles.DrawButton();
     ConnectToPi.DrawButton();
     PiStatus.DrawStatus();
     PiStatus.DrawInfo(csvFile,inputFileBox);

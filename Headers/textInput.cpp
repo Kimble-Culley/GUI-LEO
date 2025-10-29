@@ -32,8 +32,11 @@ void TextInput::UpdateText(Vector2 mousePos,Files &csvFile){
         }
 
         if(IsKeyPressed(KEY_ENTER)){
-            csvFile.updateFileName(text);
+            csvFile.updateFileName("files/csv/" + text);
             csvFile.readCSV();
+            while(!text.empty()){
+                text.pop_back();
+            }
         }
 
     }

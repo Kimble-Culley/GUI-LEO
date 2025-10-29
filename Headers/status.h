@@ -12,7 +12,7 @@ int currentState;
 
 public:
 Status() : currentCode(1), currentState(0) {}
-int GetPiStatus();
+int GetPiStatus(Files &fromFile);
 void DrawStatus();
 void DrawInfo(Files &fromFile, TextInput &inputFileBox);
 void changeState(int state);

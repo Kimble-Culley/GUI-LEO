@@ -39,9 +39,10 @@ void Status::DrawStatus(){
 }
 
 //Will attempt to ssh into the raspberry pi
-int Status::GetPiStatus(){
+int Status::GetPiStatus(Files &fromFile){
 
-    int result = system("ssh cleo@192.168.1.207 '~/RemoteTest/test'");
+    std::string cmd = "ssh " + fromFile.getsshUser() + "@" + fromFile.getsshHost() + " '~/RemoteTest/test'";
+    int result = system(cmd.c_str());
 
     currentCode = WEXITSTATUS(result);
 
@@ -81,14 +82,21 @@ void Status::DrawInfo(Files &fromFile, TextInput &inputFileBox){
     {
     case 1:
         statusText.clear();
-        statusText.push_back("status1");
+        statusText.push_back("Starting Scan be still");
         break;
 
     case 2:
         statusText.clear();
-        statusText.push_back("This state should probably just go to default?");
+        statusText.push_back("Attempting to open " +fromFile.getFileName());
         break;
-    
+
+    case 3:
+        statusText.clear();
+        statusText.push_back("Locating files");
+        for(auto &item : fromFile.getFileList()){
+            statusText.push_back(item);
+        }
+        break;
     default:
         statusText.clear();
         statusText.push_back("Current File: " + fromFile.getFileName());

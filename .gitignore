@@ -1,0 +1,8 @@
+*.o
+*.obj
+
+*.vscode/
+files/csv/*.csv
+
+*~
+config.ini
