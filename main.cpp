@@ -42,7 +42,7 @@ Buttons ButtonStartScan({layout.border,layout.border,screenWidth*layout.buttonWi
 Buttons ButtonOpenScan({layout.border,190,400,150},LIGHTGRAY,"OpenScan",20);
 Buttons ButtonScanMode({layout.border+ButtonStartScan.getRect().width,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio},LIGHTGRAY,"Scan Mode",20);
 Buttons ButtonLocateFiles({layout.border+ButtonOpenScan.getRect().width,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio},LIGHTGRAY,"Locate Files",20);
-
+Buttons ButtonRetriveFies({layout.border+ButtonOpenScan.getRect().width,layout.border,screenWidth*layout.buttonWidthRatio,screenHeight*layout.buttonHeightRatio+layout.border},LIGHTGRAY,"Retrive Files",20);
 Buttons ConnectToPi({screenWidth-300,screenHeight-300,200,50},LIGHTGRAY,"Connect to PI",20);
 Status PiStatus;
 
@@ -57,6 +57,8 @@ while(!WindowShouldClose()){
     ButtonOpenScan.UpdatePositon({layout.border,(layout.border)*2 + NewScreenHeight*layout.buttonHeightRatio,NewScreenWidth*layout.buttonWidthRatio,NewScreenHeight*layout.buttonHeightRatio});
     ButtonScanMode.UpdatePositon({layout.border*2+ButtonStartScan.getRect().width,layout.border,NewScreenWidth*layout.smButtonWidthRation,NewScreenHeight*layout.smButtonHeightRation});
     ButtonLocateFiles.UpdatePositon({layout.border*2+ButtonOpenScan.getRect().width,layout.border*2 + NewScreenHeight*layout.buttonHeightRatio,NewScreenWidth*layout.smButtonWidthRation,NewScreenHeight*layout.smButtonHeightRation});
+    ButtonRetriveFies.UpdatePositon({layout.border*2+ButtonOpenScan.getRect().width,layout.border*2 + NewScreenHeight*layout.buttonHeightRatio+ButtonLocateFiles.getRect().height+20,NewScreenWidth*layout.smButtonWidthRation,NewScreenHeight*layout.smButtonHeightRation});
+
     ConnectToPi.UpdatePositon({NewScreenWidth-250,NewScreenHeight-120,layout.connectButtonWidth,layout.connectButtonHeight});
 
     Vector2 mousePos = GetMousePosition();
@@ -70,13 +72,22 @@ while(!WindowShouldClose()){
     
     if(ButtonOpenScan.Collison(mousePos)){
         PiStatus.changeState(0);
-        std::string cmd = "~/3Drenderer/Open3D/tester/build/view_csv " + csvFile.getFileName();
-        system(cmd.c_str());
+        //std::string cmd = "~/3Drenderer/Open3D/tester/build/view_csv " + csvFile.getFileName();
+        //system(cmd.c_str());
+        system(
+        "powershell.exe -Command \"cd 'C:\\\\Users\\\\Kimble\\\\Documents\\\\testCode'; "
+        "python .\\app.py\""
+    );
+
     }
 
     if(ButtonLocateFiles.Collison(mousePos)){
         csvFile.findFiles();
         PiStatus.changeState(3);
+    }
+
+    if(ButtonRetriveFies.Collison(mousePos)){
+        
     }
 
     if(ConnectToPi.Collison(mousePos)){
@@ -107,6 +118,7 @@ while(!WindowShouldClose()){
     ButtonOpenScan.DrawButton();
     ButtonScanMode.DrawButton();
     ButtonLocateFiles.DrawButton();
+    ButtonRetriveFies.DrawButton();
     ConnectToPi.DrawButton();
     PiStatus.DrawStatus();
     PiStatus.DrawInfo(csvFile,inputFileBox);
